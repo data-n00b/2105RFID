@@ -16,6 +16,11 @@ def toggle_led():
     led_state = not led_state
     GPIO.output(LED_PIN, led_state)
 
+def flash_led():
+    GPIO.output(LED_PIN, GPIO.HIGH)  # Turn LED on
+    time.sleep(5)  # Wait for 5 seconds
+    GPIO.output(LED_PIN, GPIO.LOW)  # Turn LED off
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((SERVER_IP, SERVER_PORT))
     s.listen()
@@ -29,5 +34,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = conn.recv(1024)
             if data == b'TOGGLE':
                 toggle_led()
+            elif data == b'FLASH':
+                flash_led()
 
 GPIO.cleanup()
