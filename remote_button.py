@@ -15,8 +15,8 @@ def button_callback(channel):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((SERVER_IP, SERVER_PORT))
-            #s.sendall(b'TOGGLE')
-            s.sendall(b'FLASH')
+            s.sendall(b'TOGGLE')
+            #s.sendall(b'FLASH')
     except Exception as e:
         print(f"Connection error: {e}")
 
