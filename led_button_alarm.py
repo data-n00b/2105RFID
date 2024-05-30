@@ -18,9 +18,9 @@ def flash_led():
         time.sleep(0.5)
     GPIO.output(LED_PIN, GPIO.LOW)  # Ensure the LED is off when the alarm is stopped
 
-def set_alarm(duration_minutes):
+def set_alarm(duration_seconds):
     """Function to set an alarm"""
-    alarm_time = datetime.now() + timedelta(minutes=duration_minutes)
+    alarm_time = datetime.now() + timedelta(seconds=duration_seconds)
     print(f"Alarm set for {alarm_time.strftime('%H:%M:%S')}")
     while datetime.now() < alarm_time:
         time.sleep(1)  # Sleep until the alarm time is reached
@@ -29,7 +29,7 @@ def set_alarm(duration_minutes):
     flash_led()
 
 try:
-    duration = int(input("Enter alarm duration in minutes: "))
+    duration = int(input("Enter alarm duration in seconds: "))
     set_alarm(duration)
 except KeyboardInterrupt:
     print("Program interrupted")
