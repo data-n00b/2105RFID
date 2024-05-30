@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import socket
+import time
 
 # Setup GPIO
 LED_PIN = 18
