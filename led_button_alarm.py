@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 # Set up GPIO
 LED_PIN = 18
-BUTTON_PIN = 16
+BUTTON_PIN = 17
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
