@@ -8,7 +8,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Socket setup
-SERVER_IP = '192.168.x.x'  # Replace with Pi2's IP address
+SERVER_IP = '192.168.1.215'  # Replace with Pi2's IP address
 SERVER_PORT = 65432
 
 def button_callback(channel):
