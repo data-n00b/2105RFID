@@ -35,8 +35,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(f"Connected by {addr}")
             data = conn.recv(1024)
             if data == b'TOGGLE':
-                argInput = data == b'TOGGLE'
-                flash_led(argInput)
+                toggle_led()
             #elif data == b'FLASH':
                 #flash_led()
 
