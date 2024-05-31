@@ -19,7 +19,7 @@ try:
         print(f"ID: {id}\nText: {text}")
 
         # Check the ID or text of the tag
-        if id == 123456789:  # Replace with your tag's ID
+        if id == 151042647098:  # Replace with your tag's ID
             # Turn on the LED
             GPIO.output(LED_PIN, GPIO.HIGH)
             print("LED is on")
