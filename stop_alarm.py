@@ -6,6 +6,7 @@ BUTTON_PIN = 17
 
 def button_callback(channel):
     send_stop_signal()
+    exit(0)
 
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)
