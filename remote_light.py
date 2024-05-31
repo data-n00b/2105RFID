@@ -17,12 +17,31 @@ def toggle_led():
     led_state = not led_state
     GPIO.output(LED_PIN, led_state)
 
-def flash_led(buttonInput):
-    while buttonInput:
-        GPIO.output(LED_PIN, GPIO.HIGH)  # Turn LED on
-        time.sleep(2)  # Wait for 5 seconds
-        GPIO.output(LED_PIN, GPIO.LOW)  # Turn LED off
+def flash_led(pin, flashes):
+    """
+    Flash an LED connected to the specified GPIO pin a given number of times.
 
+    Parameters:
+    pin (int): The GPIO pin number where the LED is connected.
+    flashes (int): The number of times the LED should flash.
+    """
+    # Set the GPIO mode to BCM
+    GPIO.setmode(GPIO.BCM)
+    
+    # Set up the pin as an output pin
+    GPIO.setup(pin, GPIO.OUT)
+
+    try:
+        for _ in range(flashes):
+            GPIO.output(pin, GPIO.HIGH)  # Turn on LED
+            time.sleep(1)  # Wait for 1 second
+            GPIO.output(pin, GPIO.LOW)   # Turn off LED
+            time.sleep(1)  # Wait for 1 second
+    except KeyboardInterrupt:
+        pass
+    finally:
+        GPIO.cleanup()  # Clean up GPIO settings
+        
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((SERVER_IP, SERVER_PORT))
     s.listen()
@@ -35,7 +54,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(f"Connected by {addr}")
             data = conn.recv(1024)
             if data == b'TOGGLE':
-                toggle_led()
+                #toggle_led()
+                flash_led(18,5)
             #elif data == b'FLASH':
                 #flash_led()
 
