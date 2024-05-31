@@ -1,33 +1,42 @@
 import RPi.GPIO as GPIO
+import socket
 import time
 
-def flash_led(pin, flashes):
-    """
-    Flash an LED connected to the specified GPIO pin a given number of times.
+# Setup GPIO
+LED_PIN = 18
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED_PIN, GPIO.OUT)
+led_state = False
 
-    Parameters:
-    pin (int): The GPIO pin number where the LED is connected.
-    flashes (int): The number of times the LED should flash.
-    """
-    # Set the GPIO mode to BCM
-    GPIO.setmode(GPIO.BCM)
-    
-    # Set up the pin as an output pin
-    GPIO.setup(pin, GPIO.OUT)
+# Socket setup
+SERVER_IP = '0.0.0.0'  # Listen on all interfaces
+SERVER_PORT = 65432
 
-    try:
-        for _ in range(flashes):
-            GPIO.output(pin, GPIO.HIGH)  # Turn on LED
-            time.sleep(1)  # Wait for 1 second
-            GPIO.output(pin, GPIO.LOW)   # Turn off LED
-            time.sleep(1)  # Wait for 1 second
-    except KeyboardInterrupt:
-        pass
-    finally:
-        GPIO.cleanup()  # Clean up GPIO settings
+def toggle_led():
+    global led_state
+    led_state = not led_state
+    GPIO.output(LED_PIN, led_state)
 
-# Example usage:
-if __name__ == "__main__":
-    LED_PIN = 18  # Define the GPIO pin number
-    FLASHES = 5   # Define the number of flashes
-    flash_led(LED_PIN, FLASHES)
+def flash_led(buttonInput):
+    while buttonInput:
+        GPIO.output(LED_PIN, GPIO.HIGH)  # Turn LED on
+        time.sleep(2)  # Wait for 5 seconds
+        GPIO.output(LED_PIN, GPIO.LOW)  # Turn LED off
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((SERVER_IP, SERVER_PORT))
+    s.listen()
+
+    print(f"Listening on {SERVER_IP}:{SERVER_PORT}")
+
+    while True:
+        conn, addr = s.accept()
+        with conn:
+            print(f"Connected by {addr}")
+            data = conn.recv(1024)
+            if data == b'TOGGLE':
+                toggle_led()
+            #elif data == b'FLASH':
+                #flash_led()
+
+GPIO.cleanup()
