@@ -15,7 +15,10 @@ SERVER_PORT = 65432
 def toggle_led():
     global led_state
     led_state = not led_state
-    GPIO.output(LED_PIN, led_state)
+    for x in range(10):
+        GPIO.output(LED_PIN, led_state)
+        time.sleep(1)
+        GPIO.output(LED_PIN, not led_state)
 
 def flash_led(buttonInput):
     while buttonInput:
