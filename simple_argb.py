@@ -4,7 +4,7 @@ import neopixel
 
 # LED strip configuration
 LED_COUNT = 30         # Number of LED pixels.
-LED_PIN = board.D18    # GPIO pin connected to the pixels (18 uses PWM!).
+LED_PIN = board.D20    # GPIO pin connected to the pixels (18 uses PWM!).
 
 # Create a NeoPixel object with appropriate configuration.
 pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, auto_write=False)
