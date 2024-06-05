@@ -25,7 +25,7 @@ def flash_led():
 
 def send_stop_signal():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(("server_pi_ip", 9999))  # Replace "server_pi_ip" with the server's IP address
+    client.connect(("192.168.1.215", 9999))  # Replace "server_pi_ip" with the server's IP address
     client.send("STOP".encode())
     response = client.recv(1024).decode()
     print(response)
