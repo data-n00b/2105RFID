@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import socket
 import time
+import threading
 from mfrc522 import SimpleMFRC522
 
 # GPIO pin constants
