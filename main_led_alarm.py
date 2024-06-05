@@ -17,7 +17,7 @@ lcd.write_string("My Love!")
 
 def display_message(message):
     lcd.clear()
-    lcd.write_string(message, 1)
+    lcd.write_string(message)
 
 def set_alarm(alarm_time):
     """

@@ -11,8 +11,8 @@ reader = SimpleMFRC522()
 
 def setup_gpio():
     print('ALarm is ringing')
-    #GPIO.setmode(GPIO.BCM)
-    #GPIO.setup(LED_PIN, GPIO.OUT)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(LED_PIN, GPIO.OUT)
 
 def flash_led():
     """
