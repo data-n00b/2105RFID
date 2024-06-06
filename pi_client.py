@@ -1,7 +1,7 @@
 import socket
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import RPi.GPIO as GPIO
+import time
 
 # Function to receive a message from the server
 def receive_message_from_server():
