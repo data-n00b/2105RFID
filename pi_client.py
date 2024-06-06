@@ -39,7 +39,7 @@ def flash_led(seconds, pin=18):
     seconds (int): The number of seconds to flash the LED.
     pin (int): The GPIO pin number to which the LED is connected (default is 17).
     """
-    #GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+    GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
     GPIO.setup(pin, GPIO.OUT)  # Set pin as output
 
     end_time = time.time() + seconds
