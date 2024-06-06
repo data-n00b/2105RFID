@@ -54,9 +54,9 @@ def start_server(file_path):
             server_socket.close()
 
 if __name__ == "__main__":
-    server_ip = "192.168.1.100"  # Server IP address
+    server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    client_ip = "192.168.1.101"  # Client IP address
+    client_ip = "192.168.1.204"  # Client IP address
     client_port = 65432  # Client port
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)

@@ -31,11 +31,11 @@ def send_confirmation_to_server():
     server_socket.close()
 
 if __name__ == "__main__":
-    client_ip = "192.168.1.101"  # Client IP address
+    client_ip = "192.168.1.204"  # Client IP address
     client_port = 65432  # Client port
-    server_ip = "192.168.1.100"  # Server IP address
+    server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    predefined_card_id = 123456789  # Example predefined card ID
+    predefined_card_id = 151042647098  # Example predefined card ID
 
     while True:
         message = receive_message_from_server()
