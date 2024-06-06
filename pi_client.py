@@ -1,6 +1,7 @@
 import socket
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
+import RPi.GPIO as GPIO
 
 # Function to receive a message from the server
 def receive_message_from_server():
@@ -30,6 +31,27 @@ def send_confirmation_to_server():
     server_socket.sendall("CONFIRMED".encode())
     server_socket.close()
 
+def flash_led(seconds, pin=18):
+    """
+    Flash an LED connected to a specified GPIO pin for a given number of seconds.
+
+    Parameters:
+    seconds (int): The number of seconds to flash the LED.
+    pin (int): The GPIO pin number to which the LED is connected (default is 17).
+    """
+    #GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+    GPIO.setup(pin, GPIO.OUT)  # Set pin as output
+
+    end_time = time.time() + seconds
+    try:
+        while time.time() < end_time:
+            GPIO.output(pin, GPIO.HIGH)  # Turn LED on
+            time.sleep(0.5)
+            GPIO.output(pin, GPIO.LOW)  # Turn LED off
+            time.sleep(0.5)
+    finally:
+        GPIO.cleanup()  
+
 if __name__ == "__main__":
     client_ip = "192.168.1.204"  # Client IP address
     client_port = 65432  # Client port
@@ -40,6 +62,7 @@ if __name__ == "__main__":
     while True:
         message = receive_message_from_server()
         print(f"Received message: {message}")
+        flash_led(10)
 
         card_id = read_rfid()
         if card_id == predefined_card_id:
