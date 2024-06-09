@@ -64,12 +64,12 @@ def start_server(file_path):
         
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
         lcd.clear()
-        lcd.write_string(message)
-        if piNumber == '"1"':            
+        lcd.write_string(message + " -- " + piNumber)
+        if piNumber == 1:            
             send_message_to_client1(message)
-        elif piNumber == '"2"':            
+        elif piNumber == 2:            
             send_message_to_client2(message)
-        elif piNumber == '"3"':            
+        elif piNumber == 3:            
             send_message_to_client3(message)
         
 
