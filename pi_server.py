@@ -14,11 +14,11 @@ def read_csv(file_path):
 # Function to send a message to the client
 def send_message_to_client(message,piNumber):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    if piNumber == 1:
+    if piNumber == "1":
         client_ip = "192.168.1.204"
-    elif piNumber == 2:
+    elif piNumber == "2":
         client_ip = "192.168.1.205"
-    elif piNumber == 3:
+    elif piNumber == "3":
         client_ip = "192.168.1.206"
     
     client_socket.connect((client_ip, client_port))
