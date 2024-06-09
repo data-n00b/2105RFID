@@ -12,8 +12,15 @@ def read_csv(file_path):
     return schedule
 
 # Function to send a message to the client
-def send_message_to_client(message):
+def send_message_to_client(message,piNumber):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    if piNumber == 1:
+        client_ip = "192.168.1.204"
+    elif piNumber == 2:
+        client_ip = "192.168.1.205"
+    elif piNumber == 3:
+        client_ip = "192.168.1.206"
+    
     client_socket.connect((client_ip, client_port))
     client_socket.sendall(message.encode())
     client_socket.close()
@@ -21,7 +28,7 @@ def send_message_to_client(message):
 # Function to start the server
 def start_server(file_path):
     schedule = read_csv(file_path)
-    for alarm_time, message in schedule:
+    for alarm_time, message, piNumber in schedule:
         # Wait until the specified time
         target_time = datetime.strptime(alarm_time, '%H:%M').time()
         now = datetime.now().time()
@@ -36,7 +43,7 @@ def start_server(file_path):
         lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
         lcd.clear()
         lcd.write_string(message)
-        send_message_to_client(message)
+        send_message_to_client(message,piNumber)
 
         # Wait for confirmation from the client
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,7 +63,7 @@ def start_server(file_path):
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    client_ip = "192.168.1.204"  # Client IP address
+    #client_ip = "192.168.1.204"  # Client IP address
     client_port = 65432  # Client port
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)
