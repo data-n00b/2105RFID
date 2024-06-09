@@ -8,7 +8,7 @@ from RPLCD.i2c import CharLCD
 def read_csv(file_path):
     with open(file_path, mode='r') as file:
         csv_reader = csv.reader(file)
-        schedule = [(row[0], row[1]) for row in csv_reader]
+        schedule = [(row[0], row[1], row[2]) for row in csv_reader]
     return schedule
 
 # Function to send a message to the client
@@ -28,7 +28,7 @@ def send_message_to_client(message,piNumber):
 # Function to start the server
 def start_server(file_path):
     schedule = read_csv(file_path)
-    for alarm_time, (message, piNumber) in schedule:
+    for alarm_time, message, piNumber in schedule:
         # Wait until the specified time
         target_time = datetime.strptime(alarm_time, '%H:%M').time()
         now = datetime.now().time()
