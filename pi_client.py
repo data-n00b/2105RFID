@@ -44,11 +44,11 @@ def flash_led(seconds, pin=18):
 
     end_time = time.time() + seconds
     try:
-        while time.time() < end_time:
+        #while time.time() < end_time:
             GPIO.output(pin, GPIO.HIGH)  # Turn LED on
-            time.sleep(0.5)
+            #time.sleep(0.5)
             GPIO.output(pin, GPIO.LOW)  # Turn LED off
-            time.sleep(0.5)
+            #time.sleep(0.5)
     finally:
         GPIO.cleanup()  
 
@@ -63,10 +63,14 @@ if __name__ == "__main__":
         message = receive_message_from_server()
         print(f"Received message: {message}")
         #flash_led(10)
+        GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+        GPIO.setup(18, GPIO.OUT)  # Set pin as output
         GPIO.output(18, GPIO.HIGH)
 
         card_id = read_rfid()
         if card_id == predefined_card_id:
             send_confirmation_to_server()
-            GPIO.output(18, GPIO.LOW) 
+            GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+            GPIO.setup(18, GPIO.OUT)  # Set pin as output
+            GPIO.output(18, GPIO.LOW)
             print("Confirmation sent to server.")
