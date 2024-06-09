@@ -24,14 +24,14 @@ def send_message_to_client1(message):
     client_socket.sendall(message.encode())
     client_socket.close()
 
-def send_message_to_client2(message,piNumber):
+def send_message_to_client2(message):
     #client_ip = piNumber
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
     client_socket.connect((client_ip2, client_port))
     client_socket.sendall(message.encode())
     client_socket.close()
 
-def send_message_to_client3(message,piNumber):
+def send_message_to_client3(message):
     #client_ip = piNumber
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
     client_socket.connect((client_ip3, client_port))
