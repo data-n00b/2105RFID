@@ -70,7 +70,7 @@ if __name__ == "__main__":
         card_id = read_rfid()
         if card_id == predefined_card_id:
             send_confirmation_to_server()
-            GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+            #GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
             GPIO.setup(18, GPIO.OUT)  # Set pin as output
             GPIO.output(18, GPIO.LOW)
             print("Confirmation sent to server.")
