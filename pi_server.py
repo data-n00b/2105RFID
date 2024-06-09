@@ -18,6 +18,7 @@ def read_csv_pd(file_path):
 
 # Function to send a message to the client
 def send_message_to_client(message,piNumber):
+    client_ip = piNumber
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
     client_socket.connect((client_ip, client_port))
     client_socket.sendall(message.encode())
@@ -26,8 +27,12 @@ def send_message_to_client(message,piNumber):
 # Function to start the server
 def start_server(file_path):
     schedule = read_csv_pd(file_path)
+    lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
+    lcd.clear()
 #    for alarm_time, message, piNumber in schedule:
     for ind in schedule.index:
+        #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
+        lcd.clear()
         alarm_time = schedule[0][ind]
         message = schedule[1][ind]
         piNumber = schedule[2][ind]
@@ -42,8 +47,8 @@ def start_server(file_path):
         # Print the message continuously and send it to the client
         print(f"Alarm: {message}")
         #Write To LCD display
-        lcd.clear()
-        lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
+        
+        #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
         lcd.clear()
         lcd.write_string(message)
         send_message_to_client(message,piNumber)
@@ -66,7 +71,7 @@ def start_server(file_path):
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    client_ip = "192.168.1.204"    # Client IP address
+    #client_ip = "192.168.1.204"    # Client IP address
     client_port = 65432  # Client port
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)
