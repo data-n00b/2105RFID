@@ -28,7 +28,7 @@ def send_message_to_client(message,piNumber):
 # Function to start the server
 def start_server(file_path):
     schedule = read_csv(file_path)
-    for alarm_time, message, piNumber in schedule:
+    for alarm_time, (message, piNumber) in schedule:
         # Wait until the specified time
         target_time = datetime.strptime(alarm_time, '%H:%M').time()
         now = datetime.now().time()
