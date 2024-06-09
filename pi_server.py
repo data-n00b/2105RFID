@@ -3,25 +3,42 @@ import csv
 from datetime import datetime, timedelta
 import time
 from RPLCD.i2c import CharLCD
+import pandas as pd
 
 # Function to read CSV file and return a list of tuples (time, message)
-def read_csv(file_path):
+def read_csv_pd(file_path):
+    '''
     with open(file_path, mode='r') as file:
         csv_reader = csv.reader(file)
         schedule = [(row[0], row[1], row[2]) for row in csv_reader]
     return schedule
+    '''
+    df_schedule = pd.read_csv(file_path,header=None)
+    return df_schedule
 
 # Function to send a message to the client
 def send_message_to_client(message,piNumber):
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
+    if piNumber == "1":
+        client_ip = "192.168.1.204"
+    elif piNumber == "2":
+        client_ip = "192.168.1.205"
+    elif piNumber == "3":
+        client_ip = "192.168.1.206"
+    print(client_ip) 
     client_socket.connect((client_ip, client_port))
     client_socket.sendall(message.encode())
     client_socket.close()
 
 # Function to start the server
 def start_server(file_path):
-    schedule = read_csv(file_path)
-    for alarm_time, message, piNumber in schedule:
+    schedule = read_csv_pd(file_path)
+#    for alarm_time, message, piNumber in schedule:
+    for ind in schedule.index:
+        alarm_time = schedule[0][ind]
+        message = schedule[1][ind]
+        piNumber = schedule[2][ind]
+
         # Wait until the specified time
         target_time = datetime.strptime(alarm_time, '%H:%M').time()
         now = datetime.now().time()
@@ -56,16 +73,8 @@ def start_server(file_path):
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    schedule = read_csv("schedule.csv")
-    piNumber = schedule[2]
-    if piNumber == "1":
-        client_ip = "192.168.1.204"
-    elif piNumber == "2":
-        client_ip = "192.168.1.205"
-    elif piNumber == "3":
-        client_ip = "192.168.1.206"
-    print(client_ip)
-    #client_ip = "192.168.1.204"  # Client IP address
+    #client_ip = "192.168.1.204"  
+    # Client IP address
     client_port = 65432  # Client port
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)
