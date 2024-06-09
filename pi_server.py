@@ -13,14 +13,7 @@ def read_csv(file_path):
 
 # Function to send a message to the client
 def send_message_to_client(message,piNumber):
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    if piNumber == "1":
-        client_ip = "192.168.1.204"
-    elif piNumber == "2":
-        client_ip = "192.168.1.205"
-    elif piNumber == "3":
-        client_ip = "192.168.1.206"
-    
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    
     client_socket.connect((client_ip, client_port))
     client_socket.sendall(message.encode())
     client_socket.close()
@@ -63,6 +56,14 @@ def start_server(file_path):
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
+    alarm_time, message, piNumber = read_csv("schedule.csv")
+    if piNumber == "1":
+        client_ip = "192.168.1.204"
+    elif piNumber == "2":
+        client_ip = "192.168.1.205"
+    elif piNumber == "3":
+        client_ip = "192.168.1.206"
+    print(client_ip)
     #client_ip = "192.168.1.204"  # Client IP address
     client_port = 65432  # Client port
     csv_file_path = "schedule.csv"
