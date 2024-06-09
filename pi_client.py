@@ -63,10 +63,10 @@ if __name__ == "__main__":
         message = receive_message_from_server()
         print(f"Received message: {message}")
         #flash_led(10)
-        GPIO.output(pin, GPIO.HIGH)
+        GPIO.output(18, GPIO.HIGH)
 
         card_id = read_rfid()
         if card_id == predefined_card_id:
             send_confirmation_to_server()
-            GPIO.output(pin, GPIO.LOW) 
+            GPIO.output(18, GPIO.LOW) 
             print("Confirmation sent to server.")
