@@ -56,7 +56,8 @@ def start_server(file_path):
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    alarm_time, message, piNumber = read_csv("schedule.csv")
+    schedule = read_csv("schedule.csv")
+    piNumber = schedule[2]
     if piNumber == "1":
         client_ip = "192.168.1.204"
     elif piNumber == "2":
