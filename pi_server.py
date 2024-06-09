@@ -17,10 +17,24 @@ def read_csv_pd(file_path):
     return df_schedule
 
 # Function to send a message to the client
-def send_message_to_client(message,piNumber):
-    client_ip = piNumber
+def send_message_to_client1(message):
+    #client_ip = piNumber
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
-    client_socket.connect((client_ip, client_port))
+    client_socket.connect((client_ip1, client_port))
+    client_socket.sendall(message.encode())
+    client_socket.close()
+
+def send_message_to_client2(message,piNumber):
+    #client_ip = piNumber
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
+    client_socket.connect((client_ip2, client_port))
+    client_socket.sendall(message.encode())
+    client_socket.close()
+
+def send_message_to_client3(message,piNumber):
+    #client_ip = piNumber
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
+    client_socket.connect((client_ip3, client_port))
     client_socket.sendall(message.encode())
     client_socket.close()
 
@@ -51,7 +65,13 @@ def start_server(file_path):
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
         lcd.clear()
         lcd.write_string(message)
-        send_message_to_client(message,piNumber)
+        if piNumber == "1":            
+            send_message_to_client1(message)
+        elif piNumber == "2":            
+            send_message_to_client2(message)
+        elif piNumber == "3":            
+            send_message_to_client3(message)
+        
 
         # Wait for confirmation from the client
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -71,7 +91,9 @@ def start_server(file_path):
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
-    #client_ip = "192.168.1.204"    # Client IP address
-    client_port = 65432  # Client port
+    client_ip1 = "192.168.1.204"    # Client IP address
+    client_ip2 = "192.168.1.205"    # Client IP address
+    client_ip3 = "192.168.1.206"    # Client IP address
+    client_port = 65432  # Client port      
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)
