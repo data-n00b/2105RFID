@@ -38,6 +38,13 @@ def send_message_to_client3(message):
     client_socket.sendall(message.encode())
     client_socket.close()
 
+def send_message_to_client4(message):
+    #client_ip = piNumber
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
+    client_socket.connect((client_ip4, client_port))
+    client_socket.sendall(message.encode())
+    client_socket.close()
+
 # Function to start the server
 def start_server(file_path):
     schedule = read_csv_pd(file_path)
@@ -53,6 +60,8 @@ def start_server(file_path):
         # Wait until the specified time
         target_time = datetime.strptime(alarm_time, '%H:%M').time()
         now = datetime.now().time()
+        #datetime.now().date().isoweekday()
+
         wait_seconds = (datetime.combine(datetime.today(), target_time) - datetime.combine(datetime.today(), now)).total_seconds()
         if wait_seconds < 0:
             wait_seconds += 86400  # seconds in a day
@@ -94,6 +103,7 @@ if __name__ == "__main__":
     client_ip1 = "192.168.1.204"    # Client IP address
     client_ip2 = "192.168.1.205"    # Client IP address
     client_ip3 = "192.168.1.206"    # Client IP address
+    client_ip4 = "192.168.1.241"
     client_port = 65432  # Client port      
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)
