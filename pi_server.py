@@ -113,11 +113,13 @@ def start_server(file_path):
             conn.close()
             server_socket.close()
             send_message_to_client4("NOO")
+            b_conn.close()
             buzzer_socket.close()
         else:
             print("Unexpected confirmation message")
             conn.close()
             server_socket.close()
+            b_conn.close()
             buzzer_socket.close()
 
 if __name__ == "__main__":
