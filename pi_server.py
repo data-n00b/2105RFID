@@ -112,7 +112,7 @@ def start_server(file_path):
             print("Alarm confirmed by client. Stopping alarm.")
             conn.close()
             server_socket.close()
-            send_message_to_client4("NOO")
+            #send_message_to_client4("NOO")
             b_conn.close()
             buzzer_socket.close()
         else:
