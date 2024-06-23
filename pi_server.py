@@ -41,7 +41,7 @@ def send_message_to_client3(message):
 def send_message_to_client4(message):
     #client_ip = piNumber
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
-    client_socket.connect((client_ip4, client_port))
+    client_socket.connect((client_ip4, buzzer_port))
     client_socket.sendall(message.encode())
     client_socket.close()
 
@@ -106,6 +106,7 @@ if __name__ == "__main__":
     client_ip2 = "192.168.1.205"    # Client IP address
     client_ip3 = "192.168.1.206"    # Client IP address
     client_ip4 = "192.168.1.241"
-    client_port = 65432  # Client port      
+    client_port = 65432  # Client port
+    buzzer_port = 65431      
     csv_file_path = "schedule.csv"
     start_server(csv_file_path)
