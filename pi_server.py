@@ -72,7 +72,7 @@ def start_server(file_path):
         send_message_to_client4("YES")
         buzzer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         buzzer_socket.bind((server_ip, buzzer_port))
-        server_socket.close()
+        buzzer_socket.close()
         #Write To LCD display
         
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
