@@ -69,6 +69,7 @@ def start_server(file_path):
 
         # Print the message continuously and send it to the client
         print(f"Alarm: {message}")
+        send_message_to_client4("YES")
         #Write To LCD display
         
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
@@ -92,6 +93,7 @@ def start_server(file_path):
             print("Alarm confirmed by client. Stopping alarm.")
             conn.close()
             server_socket.close()
+            send_message_to_client4("NOO")
         else:
             print("Unexpected confirmation message")
             conn.close()
