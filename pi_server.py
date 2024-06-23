@@ -2,7 +2,7 @@ import socket
 import csv
 from datetime import datetime, timedelta
 import time
-from RPLCD.i2c import CharLCD
+#from RPLCD.i2c import CharLCD
 import pandas as pd
 
 # Function to read CSV file and return a list of tuples (time, message)
@@ -48,12 +48,12 @@ def send_message_to_client4(message):
 # Function to start the server
 def start_server(file_path):
     schedule = read_csv_pd(file_path)
-    lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
-    lcd.clear()
+    #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
+    #lcd.clear()
 #    for alarm_time, message, piNumber in schedule:
     for ind in schedule.index:
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
-        lcd.clear()
+        #lcd.clear()
         alarm_time = schedule[0][ind]
         message = schedule[1][ind]
         piNumber = schedule[2][ind]
@@ -73,8 +73,8 @@ def start_server(file_path):
         #Write To LCD display
         
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
-        lcd.clear()
-        lcd.write_string(message)
+        #lcd.clear()
+        #lcd.write_string(message)
         if piNumber == 1:            
             send_message_to_client1(message)
         elif piNumber == 2:            
