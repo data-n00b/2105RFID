@@ -69,10 +69,15 @@ def start_server(file_path):
 
         # Print the message continuously and send it to the client
         print(f"Alarm: {message}")
-        send_message_to_client4("YES")
+        #send_message_to_client4("YES")
+        '''
         buzzer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         buzzer_socket.bind((server_ip, buzzer_port))
+        buzzer_socket.listen(1)
+        b_conn, b_addr = buzzer_socket.accept()
+        b_confirmation = b_conn.recv(1024).decode()
         buzzer_socket.close()
+        '''
         #Write To LCD display
         
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
@@ -80,10 +85,13 @@ def start_server(file_path):
         #lcd.write_string(message)
         if piNumber == 1:            
             send_message_to_client1(message)
+            send_message_to_client4("YES")
         elif piNumber == 2:            
             send_message_to_client2(message)
+            send_message_to_client4("YES")
         elif piNumber == 3:            
             send_message_to_client3(message)
+            send_message_to_client4("YES")
         
 
         # Wait for confirmation from the client
@@ -92,18 +100,25 @@ def start_server(file_path):
         server_socket.listen(1)
         conn, addr = server_socket.accept()
         confirmation = conn.recv(1024).decode()
+
+        buzzer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        buzzer_socket.bind((server_ip, buzzer_port))
+        buzzer_socket.listen(1)
+        b_conn, b_addr = buzzer_socket.accept()
+        b_confirmation = b_conn.recv(1024).decode()
+        
+
         if confirmation == "CONFIRMED":
             print("Alarm confirmed by client. Stopping alarm.")
             conn.close()
             server_socket.close()
             send_message_to_client4("NOO")
-            buzzer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            buzzer_socket.bind((server_ip, buzzer_port))
             buzzer_socket.close()
         else:
             print("Unexpected confirmation message")
             conn.close()
             server_socket.close()
+            buzzer_socket.close()
 
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
