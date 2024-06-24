@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import time
 #from RPLCD.i2c import CharLCD
 import pandas as pd
+from Adafruit_IO import Client, Feed, Data
 
 # Function to read CSV file and return a list of tuples (time, message)
 def read_csv_pd(file_path):
@@ -37,6 +38,16 @@ def send_message_to_client3(message):
     client_socket.connect((client_ip3, client_port))
     client_socket.sendall(message.encode())
     client_socket.close()
+
+def send_to_feed(message):
+    ADAFRUIT_IO_KEY = ''
+    ADAFRUIT_IO_USERNAME = ''
+    aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+    feed_name = 'cheekmate'
+    feed = aio.feeds(feed_name)
+    text_to_send = message
+    data = Data(value=text_to_send)
+    aio.create_data(feed.key, data)
 
 # Function to start the server
 def start_server(file_path):
@@ -76,12 +87,15 @@ def start_server(file_path):
         #lcd.write_string(message)
         if piNumber == 1:            
             send_message_to_client1(message)
+            send_to_feed(message)
             #send_message_to_client4("YES")
         elif piNumber == 2:            
             send_message_to_client2(message)
+            send_to_feed(message)
             #send_message_to_client4("YES")
         elif piNumber == 3:            
             send_message_to_client3(message)
+            send_to_feed(message)
             #send_message_to_client4("YES")
         
 
@@ -103,6 +117,7 @@ def start_server(file_path):
             print("Alarm confirmed by client. Stopping alarm.")
             conn.close()
             server_socket.close()
+            send_to_feed("")
             #send_message_to_client4("NOO")
             #b_conn.close()
             #buzzer_socket.close()
@@ -110,6 +125,7 @@ def start_server(file_path):
             print("Unexpected confirmation message")
             conn.close()
             server_socket.close()
+            send_to_feed("")
             #b_conn.close()
             #buzzer_socket.close()
 
