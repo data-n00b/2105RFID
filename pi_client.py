@@ -9,10 +9,9 @@ def receive_message_from_server():
     server_socket.bind((client_ip, client_port))
     server_socket.listen(1)
     conn, addr = server_socket.accept()
-    return conn
-    #message = conn.recv(1024).decode()
-    #conn.close()
-    #return message
+    message = conn.recv(1024).decode()
+    conn.close()
+    return message
 
 # Function to read RFID card
 def read_rfid():
@@ -59,10 +58,9 @@ if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
     server_port = 65432  # Server port
     predefined_card_id = 151042647098  # Example predefined card ID
-    
-    conn = receive_message_from_server()
+
     while True:
-        message = conn.recv(1024).decode()
+        message = receive_message_from_server()
         print(f"Received message: {message}")
         #flash_led(10)
         GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
