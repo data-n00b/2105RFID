@@ -5,15 +5,12 @@ import time
 #from RPLCD.i2c import CharLCD
 import pandas as pd
 from Adafruit_IO import Client, Feed, Data
+import calendar
+
+calendar.setfirstweekday(calendar.SUNDAY)
 
 # Function to read CSV file and return a list of tuples (time, message)
 def read_csv_pd(file_path):
-    '''
-    with open(file_path, mode='r') as file:
-        csv_reader = csv.reader(file)
-        schedule = [(row[0], row[1], row[2]) for row in csv_reader]
-    return schedule
-    '''
     df_schedule = pd.read_csv(file_path,header=None)
     return df_schedule
 
@@ -54,7 +51,6 @@ def start_server(file_path):
     schedule = read_csv_pd(file_path)
     #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
     #lcd.clear()
-#    for alarm_time, message, piNumber in schedule:
     for ind in schedule.index:
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
         #lcd.clear()
@@ -64,22 +60,13 @@ def start_server(file_path):
         # Wait until the specified time
         target_time = datetime.strptime(alarm_time, '%H:%M').time()
         now = datetime.now().time()
+        #To check the date (datetime.now().date().weekday())
         wait_seconds = (datetime.combine(datetime.today(), target_time) - datetime.combine(datetime.today(), now)).total_seconds()
         if wait_seconds < 0:
             wait_seconds += 86400  # seconds in a day
         time.sleep(wait_seconds)
 
         # Print the message continuously and send it to the client
-        print(f"Alarm: {message}")
-        #send_message_to_client4("YES")
-        '''
-        buzzer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        buzzer_socket.bind((server_ip, buzzer_port))
-        buzzer_socket.listen(1)
-        b_conn, b_addr = buzzer_socket.accept()
-        b_confirmation = b_conn.recv(1024).decode()
-        buzzer_socket.close()
-        '''
         #Write To LCD display
         
         #lcd = CharLCD(i2c_expander = 'PCF8574', address=0x27, port=1, cols=16, rows=2, dotsize=8)
@@ -88,16 +75,12 @@ def start_server(file_path):
         if piNumber == 1:            
             send_message_to_client1(message)
             send_to_feed(message)
-            #send_message_to_client4("YES")
         elif piNumber == 2:            
             send_message_to_client2(message)
             send_to_feed(message)
-            #send_message_to_client4("YES")
         elif piNumber == 3:            
             send_message_to_client3(message)
-            send_to_feed(message)
-            #send_message_to_client4("YES")
-        
+            send_to_feed(message)       
 
         # Wait for confirmation from the client
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -105,29 +88,17 @@ def start_server(file_path):
         server_socket.listen(1)
         conn, addr = server_socket.accept()
         confirmation = conn.recv(1024).decode()
-        '''
-        buzzer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        buzzer_socket.bind((server_ip, buzzer_port))
-        buzzer_socket.listen(1)
-        b_conn, b_addr = buzzer_socket.accept()
-        b_confirmation = b_conn.recv(1024).decode()
-        '''
 
         if confirmation == "CONFIRMED":
             print("Alarm confirmed by client. Stopping alarm.")
             conn.close()
             server_socket.close()
-            send_to_feed("")
-            #send_message_to_client4("NOO")
-            #b_conn.close()
-            #buzzer_socket.close()
+            send_to_feed("E")
         else:
             print("Unexpected confirmation message")
             conn.close()
             server_socket.close()
-            send_to_feed("")
-            #b_conn.close()
-            #buzzer_socket.close()
+            send_to_feed("E")
 
 if __name__ == "__main__":
     server_ip = "192.168.1.215"  # Server IP address
