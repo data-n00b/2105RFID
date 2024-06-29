@@ -10,9 +10,9 @@ def receive_messages(client):
             message = client.recv(1024).decode('utf-8')
             if message:
                 print(f"\nReceived: {message}")
-                GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-                GPIO.setup(18, GPIO.OUT)  # Set pin as output
-                GPIO.output(18, GPIO.HIGH)
+                #GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+                #GPIO.setup(18, GPIO.OUT)  # Set pin as output
+                #GPIO.output(18, GPIO.HIGH)
         except:
             print("Connection closed by the server.")
             client.close()
@@ -46,9 +46,9 @@ def main():
             card_id = read_rfid()
             if card_id == predefined_card_id:
                 message = "CONFIRMED"
-                GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-                GPIO.setup(18, GPIO.OUT)  # Set pin as output
-                GPIO.output(18, GPIO.LOW)
+                #GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
+                #GPIO.setup(18, GPIO.OUT)  # Set pin as output
+                #GPIO.output(18, GPIO.LOW)
                 print("Confirmation sent to server.")
             if message.lower() == 'exit':
                 break
