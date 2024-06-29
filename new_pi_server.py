@@ -10,7 +10,7 @@ import threading
 
 calendar.setfirstweekday(calendar.SUNDAY)
 clients = []
-ip_dict = {1 : "192.168.1.204", 2 : "192.168.1.209", 3 : "192.168.1.217" }
+ip_dict = {1 : '192.168.1.204', 2 : '192.168.1.209', 3 : '192.168.1.217' }
 # Function to read CSV file and return a list of tuples (time, message)
 def read_csv_pd(file_path):
     df_schedule = pd.read_csv(file_path,header=None)
@@ -37,7 +37,7 @@ def handle_client(client_socket, addr):
 
 def broadcast_message(message, pi_number, sender_socket=None):
     for client in clients:
-        
+        print("Client Socket Name is : {client.getsockname()}")
         if client != sender_socket and client.getsockname() == ip_dict[pi_number]:
             try:
                 client.send(message.encode('utf-8'))
