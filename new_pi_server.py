@@ -91,6 +91,7 @@ def start_server(file_path):
             wait_seconds += 86400  # seconds in a day
         time.sleep(wait_seconds)
 
+        print(message)
         broadcast_message(message, piNumber)
         #send_to_feed(message)
 
