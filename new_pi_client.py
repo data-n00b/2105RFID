@@ -13,8 +13,9 @@ def receive_messages(client):
                 #GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
                 #GPIO.setup(18, GPIO.OUT)  # Set pin as output
                 #GPIO.output(18, GPIO.HIGH)
-        except:
+        except Exception as e:
             print("Connection closed by the server.")
+            print(f"Connection error: {e}")
             client.close()
             break
 
