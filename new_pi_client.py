@@ -32,7 +32,7 @@ def read_rfid():
 
 def main():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_ip = '192.168.1.215'  # Replace with the server's IP address
+    server_ip = '192.168.1.245'  # Replace with the server's IP address
     server_port = 9999
     predefined_card_id = 151042647098  
 
