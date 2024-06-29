@@ -10,7 +10,7 @@ import threading
 
 calendar.setfirstweekday(calendar.SUNDAY)
 clients = []
-ip_dict = {1 : "192.168.1.204", 2 : "192.168.1.205", 3 : "192.168.1.206" }
+ip_dict = {1 : "192.168.1.204", 2 : "192.168.1.209", 3 : "192.168.1.217" }
 # Function to read CSV file and return a list of tuples (time, message)
 def read_csv_pd(file_path):
     df_schedule = pd.read_csv(file_path,header=None)
