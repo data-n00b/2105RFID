@@ -37,7 +37,9 @@ def handle_client(client_socket, addr):
 
 def broadcast_message(message, pi_number, sender_socket=None):
     for client in clients:
-        print("Client Socket Name is : {client.getsockname()}")
+        client_ip_name = client.getsockname()
+        print(f"Client Socket Name is : {client_ip_name}")
+        print(f"Target client ip is: {ip_dict[pi_number]}")
         if client != sender_socket and client.getsockname() == ip_dict[pi_number]:
             try:
                 client.send(message.encode('utf-8'))
