@@ -24,10 +24,10 @@ def handle_client(client_socket, addr):
                 break
             if message == "CONFIRMED":
                 print("Alarm confirmed by client. Stopping alarm.")
-                #send_to_feed("E")
+                send_to_feed("E")
             else:
                 print("Unexpected confirmation message")
-                #send_to_feed("E")
+                send_to_feed("E")
             print(f"Received from {addr}: {message}")
             #broadcast_message(f"{addr}: {message}", client_socket)
         except ConnectionResetError:
@@ -55,7 +55,7 @@ def accept_connections(server):
         client_handler = threading.Thread(target=handle_client, args=(client_socket, addr))
         client_handler.start()
 
-'''
+
 def send_to_feed(message):
     ADAFRUIT_IO_KEY = ''
     ADAFRUIT_IO_USERNAME = ''
@@ -65,7 +65,7 @@ def send_to_feed(message):
     text_to_send = message
     data = Data(value=text_to_send)
     aio.create_data(feed.key, data)
-'''
+
 # Function to start the server
 def start_server(file_path):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -95,7 +95,7 @@ def start_server(file_path):
 
         print(message)
         broadcast_message(message, piNumber)
-        #send_to_feed(message)
+        send_to_feed(message)
 
 
 
